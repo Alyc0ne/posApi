@@ -15,21 +15,9 @@ class GoodsController extends Controller
         $BaseSystem = new BaseSystem();
         $where = $BaseSystem->defaultWhere();
         $OrderBy = 'CreatedDate';
-        $Goods = $BaseSystem->sqlQueryWithPagination('smGoods', $where, $OrderBy, 20);
+        $Goods = $BaseSystem->sqlQueryWithPagination('smGoods', $where, $OrderBy, 15);
         return Response()->json($Goods);
     }
-
-    // public function GetGoodsByBarcode(Request $request)
-    // {
-    //     $Content = json_decode($request->getContent());
-    //     $GoodsBarcode = $Content->GoodsBarcode;
-    //     $BaseSystem = new BaseSystem();
-    //     $where = $BaseSystem->defaultWhere();
-    //     $where = array_merge($where, array('GoodsBarcode' => $GoodsBarcode));
-    //     $fields = array('GoodsID','GoodsName','GoodsPrice');
-    //     $Goods = $BaseSystem->sqlQuerySomeFields('smGoods', $where, $fields, true);
-    //     return Response()->json($Goods);
-    // }
 
     public function GetGoodsByBarcode($GoodsBarcode)
     {
