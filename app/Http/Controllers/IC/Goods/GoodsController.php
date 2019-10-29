@@ -33,4 +33,91 @@ class GoodsController extends Controller
             return response('Not Data!', 205)->header('Content-Type', 'text/plain');
         }
     }
+
+    public function BindManage(Request $request)
+    {
+        $IsSuccess = false;
+        $IsDupicate = false;
+        
+        try {
+            $IsBarcode = boolval($request['IsBarcode']);
+            $GoodsBarcode = $request['GoodsBarcode'];
+    
+            $Goods = new Goods();
+            $Goods->GoodsID = substr(uniqid(), 3);
+            $Goods->GoodsNo = $request['GoodsNo'];
+            $Goods->GoodsBarcode = $IsBarcode ? $GoodsBarcode : null;
+            $Goods->GoodsName = $request['GoodsName'];
+            $Goods->GoodsQty = 1;
+            $Goods->GoodsPrice = $request['GoodsPrice'];
+            $Goods->GoodsCost = $request['GoodsCost'] != null ? $request['GoodsCost'] : 0;
+            // $Goods->GoodsUnitID = $UnitID;
+            // $Goods->GoodsUnitName = $UnitData->UnitName;
+            // $Goods->CreatedByID = strval(Auth::user()->UserID);
+            $Goods->ModifiedByID = null;
+            $Goods->ModifiedDate = null;
+            $Goods->IsBarcode = $IsBarcode;
+            $Goods->IsDelete = false;
+            $Goods->IsInactive = false;
+
+            dd($Goods);
+            //$Goods->save();
+        } catch (\Throwable $th) {
+            dd($th);
+            //return response('Not Data!', 205)->header('Content-Type', 'text/plain');
+        }
+        
+        
+
+        // if ($request->ajax()) {
+        //     try {
+        //         $BaseSystem = new BaseSystem();
+        //         $IsBarcode = boolval($request->input('IsBarcode'));
+        //         $GoodsBarcode = $request->input('GoodsBarcode');
+        //         $where = $BaseSystem->defaultWhere();
+        //         $whereBarcode = $where;
+        //         $whereBarcode['GoodsBarcode'] = $GoodsBarcode;
+        //         if (boolval($IsBarcode)) {
+        //             $Count = $BaseSystem->sqlCount('smGoods',$whereBarcode,'GoodsBarcode');
+        //         }
+
+        //         if ($Count == 0) {
+        //             $UnitID = $request->input('unitGoods');
+        //             $where = $BaseSystem->defaultWhere();
+        //             //array_push($where, 'UnitID');
+        //             $where['UnitID'] = $UnitID;
+        //             $fields = array('UnitName');
+        //             $UnitData = $BaseSystem->sqlQuerySomeFields('smUnit', $where, $fields, true);
+    
+        //             $Goods = new Goods();
+        //             $Goods->GoodsID = substr(uniqid(), 3);
+        //             $Goods->GoodsNo = $request->input('GoodsNo');
+        //             $Goods->GoodsBarcode = $IsBarcode ? $GoodsBarcode : null;
+        //             $Goods->GoodsName = $request->input('GoodsName');
+        //             $Goods->GoodsQty = 1;
+        //             $Goods->GoodsPrice = $request->input('GoodsPrice');
+        //             $Goods->GoodsCost = $request->input('GoodsCost') != null ? $request->input('GoodsCost') : 0;
+        //             $Goods->GoodsUnitID = $UnitID;
+        //             $Goods->GoodsUnitName = $UnitData->UnitName;
+        //             $Goods->CreatedByID = strval(Auth::user()->UserID);
+        //             $Goods->ModifiedByID = null;
+        //             $Goods->ModifiedDate = null;
+        //             $Goods->IsBarcode = boolval($IsBarcode);
+        //             $Goods->IsDelete = false;
+        //             $Goods->IsInactive = false;
+        //             $Goods->save();
+    
+        //             $IsSuccess = true;
+        //         }else {
+        //             $IsSuccess = false;
+        //             $IsDupicate = true;
+        //         }
+                
+        //         return Response()->json(array($IsSuccess,$IsDupicate));
+        //     } catch (\Throwable $th) {
+        //         //throw $th;
+        //         return Response()->json(array($IsSuccess,$IsDupicate));
+        //     }
+        // }
+    }
 }

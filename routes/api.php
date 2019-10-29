@@ -18,5 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('GetRunningNumber/{System}', 'BaseController@GenRunningNumber');
+
+//Goods
 Route::get('TestAPI/', 'IC\Goods\GoodsController@TestAPI');
 Route::get('GetGoodsByBarcode/{GoodsBarCode}', 'IC\Goods\GoodsController@GetGoodsByBarcode');
+Route::post('BindManage', 'IC\Goods\GoodsController@BindManage');
