@@ -53,15 +53,15 @@ class GoodsController extends Controller
             $Goods->GoodsCost = $request['GoodsCost'] != null ? $request['GoodsCost'] : 0;
             // $Goods->GoodsUnitID = $UnitID;
             // $Goods->GoodsUnitName = $UnitData->UnitName;
-            // $Goods->CreatedByID = strval(Auth::user()->UserID);
+            $Goods->CreatedByID = '1';
+            //strval(Auth::user()->UserID);
             $Goods->ModifiedByID = null;
             $Goods->ModifiedDate = null;
             $Goods->IsBarcode = $IsBarcode;
             $Goods->IsDelete = false;
             $Goods->IsInactive = false;
-
-            dd($Goods);
-            //$Goods->save();
+            $Goods->save();
+            return response()->json($Goods, 201);
         } catch (\Throwable $th) {
             dd($th);
             //return response('Not Data!', 205)->header('Content-Type', 'text/plain');
