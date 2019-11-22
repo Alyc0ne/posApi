@@ -34,6 +34,16 @@ class GoodsController extends Controller
         }
     }
 
+    public function BindLoadGoods(Request $request)
+    {
+        $BaseSystem = new BaseSystem();
+        $where = $BaseSystem->defaultWhere();
+        $where = array_merge($where, $BaseSystem->GenSqlWhereSearch('Goods', $request['thisFilter'], $request['txtSearch']));
+        $OrderBy = 'CreatedDate';
+        $Goods = $BaseSystem->sqlQueryWithPagination('smGoods', $where, $OrderBy, 15);
+        return Response()->json($Goods);
+    }
+
     public function BindManage(Request $request)
     {
         $IsSuccess = false;

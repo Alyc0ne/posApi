@@ -64,4 +64,24 @@ class BaseSystem extends Model
     {
         return DB::table($table)->select($fields)->where($where)->count();
     }
+
+    public function GenSqlWhereSearch($System, $filterSearch, $textSearch)
+    {
+        switch ($System) {
+            case 'Goods':
+                if ($filterSearch == "All") {
+                    // $sql = array($filterSearch, 'like', $textSearch);
+                } else {
+                    $sql[] = array($filterSearch, 'like', '%'.$textSearch.'%');
+                    //$sql[] = [$filterSearch, 'like', '%'.$textSearch.'%'];
+                }
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        
+        return $sql;
+    }
 }

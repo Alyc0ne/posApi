@@ -22,5 +22,6 @@ Route::get('GetRunningNumber/{System}', 'BaseController@GenRunningNumber');
 
 //Goods
 Route::get('TestAPI/', 'IC\Goods\GoodsController@TestAPI');
+Route::post('BindLoadGoods', 'IC\Goods\GoodsController@BindLoadGoods');
 Route::get('GetGoodsByBarcode/{GoodsBarCode}', 'IC\Goods\GoodsController@GetGoodsByBarcode');
 Route::post('BindManageGoods', 'IC\Goods\GoodsController@BindManage');
