@@ -18,10 +18,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('GetRunningNumber/{System}', 'BaseController@GenRunningNumber');
+Route::get('GenerateData/{System}', 'BaseController@GenerateData');
 
 //Goods
 Route::get('TestAPI/', 'IC\Goods\GoodsController@TestAPI');
 Route::post('BindLoadGoods', 'IC\Goods\GoodsController@BindLoadGoods');
 Route::get('GetGoodsByBarcode/{GoodsBarCode}', 'IC\Goods\GoodsController@GetGoodsByBarcode');
 Route::post('BindManageGoods', 'IC\Goods\GoodsController@BindManage');
+
+//Unit
+Route::get('GetUnit/', 'IC\Unit\UnitController@GetUnit');

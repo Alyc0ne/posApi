@@ -61,33 +61,29 @@ class BaseController extends Controller
     }
 
 
-    public function GenData(Request $request)
+    public function GenerateData($System)
     {
         $BaseSystem = new BaseSystem();
         $Unit = array();
-        if ($request->ajax()) {
-            $Content = json_decode($request->getContent());
-            $System = $Content->System;
-            $defaultWhere = $BaseSystem->defaultWhere();
-            $RunningNumber = $this->GenRunningNumber($System);
-            //$OrderBy = $BaseSystem->defaultOrderBy();
-            $OrderBy = 'CreatedDate';
+        $defaultWhere = $BaseSystem->defaultWhere();
+        $RunningNumber = $this->GenRunningNumber($System);
+        //$OrderBy = $BaseSystem->defaultOrderBy();
+        $OrderBy = 'CreatedDate';
+        
+        switch ($System) {
+            case 'Goods':
+                $UnitData = $BaseSystem->sqlQueryOrderBy('smUnit', $defaultWhere, $OrderBy);
+                $Unit = $UnitData;
+                break;
             
-            switch ($System) {
-                case 'Goods':
-                    $UnitData = $BaseSystem->sqlQueryOrderBy('smUnit', $defaultWhere, $OrderBy);
-                    $Unit = $UnitData;
-                    break;
-                
-                default:
-                    break;
-            }
-            $Result = array(
-                'RunningNumber' => $RunningNumber,
-                'Unit' => $Unit
-            );
-            return Response()->json($Result);
+            default:
+                break;
         }
+        $Result = array(
+            'RunningNumber' => $RunningNumber,
+            'Unit' => $Unit
+        );
+        return Response()->json($Result);
     }
 
     public function GetDataJson(){
