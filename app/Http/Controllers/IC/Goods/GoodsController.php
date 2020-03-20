@@ -50,27 +50,35 @@ class GoodsController extends Controller
         $IsDupicate = false;
         
         try {
+            $IsEdit = boolval($request['isEdit']);
             $IsBarcode = boolval($request['IsBarcode']);
             $GoodsBarcode = $request['GoodsBarcode'];
-    
             $Goods = new Goods();
-            $Goods->GoodsID = substr(uniqid(), 3);
-            $Goods->GoodsNo = $request['GoodsNo'];
+
+            if (!$IsEdit) {
+                $Goods->GoodsID = substr(uniqid(), 3);
+                $Goods->GoodsNo = $request['GoodsNo'];
+            }
+
             $Goods->GoodsBarcode = $IsBarcode ? $GoodsBarcode : null;
             $Goods->GoodsName = $request['GoodsName'];
             $Goods->GoodsQty = 1;
-            $Goods->GoodsPrice = $request['GoodsPrice'];
-            $Goods->GoodsCost = $request['GoodsCost'] != null ? $request['GoodsCost'] : 0;
-            // $Goods->GoodsUnitID = $UnitID;
-            // $Goods->GoodsUnitName = $UnitData->UnitName;
+            $Goods->GoodsPrice = preg_replace('/\,/', '', $request['GoodsPrice']); 
+            $Goods->GoodsCost = $request['GoodsCost'] != null ? preg_replace('/\,/', '', $request['GoodsCost']) : 0;
+            $Goods->GoodsUnitID = $request['UnitID'];
+            $Goods->GoodsUnitName = $request['UnitName'];
             $Goods->CreatedByID = '1';
             //strval(Auth::user()->UserID);
-            $Goods->ModifiedByID = null;
-            $Goods->ModifiedDate = null;
+            $Goods->ModifiedByID = !$IsEdit ? null : '1';
+            $Goods->ModifiedDate = !$IsEdit ? null : '1';
             $Goods->IsBarcode = $IsBarcode;
             $Goods->IsDelete = false;
             $Goods->IsInactive = false;
-            $Goods->save();
+
+            if (!$IsEdit) {
+                $Goods->save();
+            }
+
             return response()->json($Goods, 201);
         } catch (\Throwable $th) {
             dd($th);
